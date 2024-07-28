@@ -1,0 +1,207 @@
+<html><head><base href="https://netherstar.minecraft.server/"><title>Netherstar Minecraft Server</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Minecraft&display=swap');
+
+    body {
+        font-family: 'Minecraft', Arial, sans-serif;
+        background-color: #1a1a2e;
+        color: #FFFFFF;
+        margin: 0;
+        padding: 0;
+        perspective: 1000px;
+        overflow-x: hidden;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        transform-style: preserve-3d;
+    }
+    h1 {
+        text-align: center;
+        color: #FF5555;
+        text-shadow: 2px 2px #000000, 4px 4px #FF0000;
+        font-size: 3em;
+        animation: floating 3s ease-in-out infinite;
+    }
+    @keyframes floating {
+        0% { transform: translate(0, 0px); }
+        50% { transform: translate(0, 15px); }
+        100% { transform: translate(0, 0px); }
+    }
+    .nether-star {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        display: block;
+        animation: rotate3D 10s linear infinite;
+    }
+    @keyframes rotate3D {
+        0% { transform: rotateY(0deg) rotateX(0deg); }
+        100% { transform: rotateY(360deg) rotateX(360deg); }
+    }
+    .links {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 30px;
+    }
+    .link-button {
+        background-color: #7289DA;
+        color: #FFFFFF;
+        padding: 15px 30px;
+        text-decoration: none;
+        border-radius: 10px;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    .link-button:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: all 0.5s;
+        z-index: -1;
+    }
+    .link-button:hover:before {
+        left: 100%;
+    }
+    .store {
+        margin-top: 50px;
+    }
+    .rank {
+        background: linear-gradient(45deg, #4CAF50, #45a049);
+        margin: 20px 0;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        transform: translateZ(20px);
+        transition: all 0.3s;
+    }
+    .rank:hover {
+        transform: translateZ(30px) scale(1.05);
+    }
+    .rank h3 {
+        margin-top: 0;
+        color: #FFD700;
+        text-shadow: 2px 2px #000000;
+    }
+    .price {
+        font-weight: bold;
+        color: #FFD700;
+        font-size: 1.5em;
+        text-shadow: 1px 1px #000000;
+    }
+    .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+    }
+</style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="container">
+        <h1>Welcome to Netherstar network</h1>
+        <svg class="nether-star" viewBox="0 0 100 100">
+            <polygon points="50,0 61,35 97,35 68,57 79,91 50,70 21,91 32,57 3,35 39,35" fill="url(#star-gradient)" />
+            <defs>
+                <linearGradient id="star-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+        </svg>
+        <div class="links">
+            <a href="https://discord.gg/xxDBqN8cUb" class="link-button">Join our Discord</a>
+            <a href="minecraft://connect/coming.soon:25565" class="link-button">Connect to Server (Coming Soon)</a>
+        </div>
+        <div class="store">
+            <h2>Server Ranks</h2>
+            <div class="rank" id="elite">
+                <h3>Elite Rank</h3>
+                <p>Exclusive perks and benefits for our top supporters!</p>
+                <p class="price">$8.00</p>
+                <a href="https://netherstar.minecraft.server/store/elite" class="link-button">Purchase Elite</a>
+            </div>
+            <div class="rank" id="vip">
+                <h3>VIP Rank</h3>
+                <p>Extra features to enhance your gameplay experience!</p>
+                <p class="price">$5.00</p>
+                <a href="https://netherstar.minecraft.server/store/vip" class="link-button">Purchase VIP</a>
+            </div>
+            <div class="rank" id="premium">
+                <h3>Premium Rank</h3>
+                <p>A great starting point for supporting the server!</p>
+                <p class="price">$2.00</p>
+                <a href="https://netherstar.minecraft.server/store/premium" class="link-button">Purchase Premium</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // 3D background particles
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('particles').appendChild(renderer.domElement);
+
+        const geometry = new THREE.BufferGeometry();
+        const vertices = [];
+        for (let i = 0; i < 10000; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(2000));
+            vertices.push(THREE.MathUtils.randFloatSpread(2000));
+            vertices.push(THREE.MathUtils.randFloatSpread(2000));
+        }
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+        const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0xFFFFFF, size: 2 }));
+        scene.add(particles);
+        camera.position.z = 1000;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.rotation.x += 0.0001;
+            particles.rotation.y += 0.0001;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Rank hover effects
+        const ranks = document.querySelectorAll('.rank');
+        ranks.forEach(rank => {
+            rank.addEventListener('mousemove', (e) => {
+                const rect = rank.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                rank.style.setProperty('--mouse-x', `${x}px`);
+                rank.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Colorful glow effect for ranks
+        const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1'];
+        ranks.forEach((rank, index) => {
+            rank.style.boxShadow = `0 0 20px ${colors[index]}`;
+        });
+
+        // Animated nether star
+        const star = document.querySelector('.nether-star');
+        let rotation = 0;
+        function rotateStar() {
+            rotation += 1;
+            star.style.transform = `rotateY(${rotation}deg)`;
+            requestAnimationFrame(rotateStar);
+        }
+        rotateStar();
+    </script>
+</body>
+</html>
